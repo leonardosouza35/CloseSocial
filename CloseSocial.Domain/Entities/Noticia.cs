@@ -8,19 +8,26 @@ namespace CloseSocial.Domain.Entities
     public class Noticia : Entity
     {
         public DateTime DataPublicacao { get; set; }
-        public string Conteudo { get; set; }
-        public List<Comentario> Comentarios { get; set; }
+        public string Texto { get; set; }
+        public string UrlConteudo { get; set; }
+        public List<Comentario> Comentarios { get; private set; }
+        public Usuario Usuario { get; private set; }
 
         public Noticia()
         {
+            DataPublicacao = DateTime.Now;
             Comentarios = new List<Comentario>();
+        }
+
+        public void SetUsuario(Usuario usuario)
+        {
+            Usuario = usuario;
         }
         public void AdicionarComentario(Comentario comentario)
         {
-            if(comentario.Usuario != null)
-            {
+            if(comentario.Usuario != null)            
                 Comentarios.Add(comentario);
-            }
-        }        
+            
+        }       
     }
 }
