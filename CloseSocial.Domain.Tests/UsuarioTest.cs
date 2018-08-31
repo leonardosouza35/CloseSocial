@@ -1,5 +1,4 @@
 using CloseSocial.Domain.Entities;
-using CloseSocial.Domain.Validations;
 using System;
 using System.Linq;
 using Xunit;
@@ -24,8 +23,8 @@ namespace CloseSocial.Domain.Tests
             usuario.Sexo = SexoEnum.Masculino;
             usuario.DataNascimento = DateTime.Now;
             usuario.CelularOrEmail = "user@gmail.com";
-            var notifications = new UsuarioValidationContract(usuario).Contract.Notifications;
-            Assert.True(!notifications.Any());
+            
+            Assert.True(!usuario.Notifications.Any());
         }
 
         [Fact]

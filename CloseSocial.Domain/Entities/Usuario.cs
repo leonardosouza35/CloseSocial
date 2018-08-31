@@ -1,10 +1,7 @@
-﻿using CloseSocial.Domain.Validations;
-using FluentValidator;
-using FluentValidator.Validation;
+﻿using Flunt.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace CloseSocial.Domain.Entities
 {
@@ -32,23 +29,22 @@ namespace CloseSocial.Domain.Entities
         }
         public void AdicionarAmigo(Amigo amigo)
         {
-            if (amigo == null)
-            {
-                AddNotification("", " amigo não pode ser nulo");
-                return;
-            }
+                        
+            AddNotifications(
+                new Contract()
+                .IsTrue(amigo != null, "Nome", "Não pode informar nulo na chamada")
+                .IsNotNull(amigo.Nome, "Nome", "Você deve informar um nome")
+                .IsNotNull(amigo.SobreNome, "SobreNome", "Você deve informar o sobre nome")
+                .IsNotNull(amigo.Senha, "Senha", "Você deve informar a senha")
+                .IsNotNull(amigo.CelularOrEmail, "CelularOrEmail", "Você deve informar o Celular ou Email")
+                .IsTrue(amigo.DataNascimento.HasValue, "DataNascimento", "Você deve informar a data de nascimento")
+                .IsTrue(!Amigos.Any(u => u.CelularOrEmail == amigo.CelularOrEmail), "Amigos", "Amigo já foi adicionado")
+                );
+            
 
-            var notifications = new UsuarioValidationContract(amigo).Contract.Notifications;
-            AddNotifications(notifications);
-
-            if (!notifications.Any() && !Amigos.Any(u => u.CelularOrEmail == amigo.CelularOrEmail))
-            {
+            if(Valid)
                 Amigos.Add(amigo);
-            }else
-            {
-                AddNotification("Amigos", "Não foi possivel adicionar um novo amigo");
-            }            
-
+                        
         }
 
         public Usuario ObterAmigo(string emailOuSenha)

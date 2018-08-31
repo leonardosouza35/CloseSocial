@@ -1,7 +1,4 @@
-﻿using FluentValidator;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Flunt.Notifications;
 
 namespace CloseSocial.Domain.Entities
 {
