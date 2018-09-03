@@ -28,6 +28,11 @@ namespace CloseSocial.Domain.Entities
             if(comentario.Usuario != null)            
                 Comentarios.Add(comentario);
             
-        }       
+        }
+
+        public override void Validate()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

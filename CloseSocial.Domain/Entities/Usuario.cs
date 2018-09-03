@@ -29,20 +29,17 @@ namespace CloseSocial.Domain.Entities
         }
         public void AdicionarAmigo(Amigo amigo)
         {
-                        
-            AddNotifications(
-                new Contract()
-                .IsTrue(amigo != null, "Nome", "Não pode informar nulo na chamada")
-                .IsNotNull(amigo.Nome, "Nome", "Você deve informar um nome")
-                .IsNotNull(amigo.SobreNome, "SobreNome", "Você deve informar o sobre nome")
-                .IsNotNull(amigo.Senha, "Senha", "Você deve informar a senha")
-                .IsNotNull(amigo.CelularOrEmail, "CelularOrEmail", "Você deve informar o Celular ou Email")
-                .IsTrue(amigo.DataNascimento.HasValue, "DataNascimento", "Você deve informar a data de nascimento")
-                .IsTrue(!Amigos.Any(u => u.CelularOrEmail == amigo.CelularOrEmail), "Amigos", "Amigo já foi adicionado")
-                );
-            
 
-            if(Valid)
+            amigo.Validate();
+                
+            AddNotifications(amigo.Notifications);
+            
+            AddNotifications(
+                new Contract()                
+                .IsTrue(!Amigos.Any(u => u.CelularOrEmail == CelularOrEmail), "Amigos", "Amigo já foi adicionado")
+                );
+
+            if (Valid)
                 Amigos.Add(amigo);
                         
         }
@@ -56,6 +53,19 @@ namespace CloseSocial.Domain.Entities
         {
             noticia.SetUsuario(this);
             Noticias.Add(noticia);
-        }       
+        } 
+        
+        
+        public override void Validate()
+        {
+            AddNotifications(
+                new Contract()
+                .IsNotNull(Nome, "Nome", "Você deve informar um nome")
+                .IsNotNull(SobreNome, "SobreNome", "Você deve informar o sobre nome")
+                .IsNotNull(Senha, "Senha", "Você deve informar a senha")
+                .IsNotNull(CelularOrEmail, "CelularOrEmail", "Você deve informar o Celular ou Email")
+                .IsTrue(DataNascimento.HasValue, "DataNascimento", "Você deve informar a data de nascimento")                
+                );
+        }
     }
 }
