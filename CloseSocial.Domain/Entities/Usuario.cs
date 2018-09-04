@@ -18,14 +18,15 @@ namespace CloseSocial.Domain.Entities
         public string Senha { get; set; }
         public DateTime? DataNascimento { get; set; }
         public SexoEnum Sexo { get; set; }
+        public string UrlFoto { get; set; }
 
         public List<Amigo> Amigos { get; private set; }
-        public List<Noticia> Noticias { get; private set; }
+        public List<Postagem> Postagens { get; private set; }
 
         public Usuario()
         {
             Amigos = new List<Amigo>();
-            Noticias = new List<Noticia>();
+            Postagens = new List<Postagem>();
         }
         public void AdicionarAmigo(Amigo amigo)
         {
@@ -49,13 +50,28 @@ namespace CloseSocial.Domain.Entities
             return Amigos.FirstOrDefault(a => a.CelularOrEmail == emailOuSenha);
         }
 
-        public void AdicionarNoticia(Noticia noticia)
+        public void Postar(Postagem post)
         {
-            noticia.SetUsuario(this);
-            Noticias.Add(noticia);
-        } 
+            post.SetUsuario(this);
+            post.Validate();
+            AddNotifications(post.Notifications);
+            
+            if (Valid)                            
+                Postagens.Add(post);
+            
+        }
+
+        public void AdicionarComentario(Postagem post, Comentario comentario)
+        {
+            comentario.SetUsuario(this);
+            comentario.Validate();            
+            AddNotifications(comentario.Notifications);
+            if (Valid)
+                post.AdicionarComentario(comentario);
+        }
         
-        
+
+
         public override void Validate()
         {
             AddNotifications(
