@@ -1,0 +1,5 @@
+﻿{
+  "ConnectionStrings": {
+    "CloseSocialDB": "server=localhost;userid=root;password=admin;database=CloseSocialDB;"
+  }
+}
