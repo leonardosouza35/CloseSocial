@@ -28,7 +28,7 @@ namespace CloseSocial.API
         public void ConfigureServices(IServiceCollection services)
         {
             var conn = Configuration.GetConnectionString("CloseSocialDB");
-            services.AddDbContext<CloseSocialContext>(option => option.UseMySql(conn, m => m.MigrationsAssembly("CloseSocial.API")));
+            services.AddDbContext<CloseSocialContext>(option => option.UseMySql(conn, m => m.MigrationsAssembly("CloseSocial.Infra.Data")));
             services.AddMvc();
         }
 

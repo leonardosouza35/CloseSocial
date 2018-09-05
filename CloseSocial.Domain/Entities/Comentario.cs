@@ -1,13 +1,15 @@
-﻿using Flunt.Validations;
+﻿using Flunt.Notifications;
+using Flunt.Validations;
 using System;
 using System.Text;
 
 namespace CloseSocial.Domain.Entities
 {
   
-    public class Comentario : Entity
+    public class Comentario : Notifiable
     {
-        public DateTime? DataPublicacao { get; set; }
+        public int Id { get; private set; }
+        public DateTime DataPublicacao { get; set; }
         public string Texto { get; set; }        
         public Usuario Usuario { get; private set; }
 
@@ -19,11 +21,11 @@ namespace CloseSocial.Domain.Entities
         {
             Usuario = usuario;
         }
-        public override void Validate()
+        public void Validate()
         {
             AddNotifications(
                 new Contract()
-                .IsTrue(DataPublicacao.HasValue, "DataPublicacao", "Data publicação não foi informada")
+                .IsTrue(DataPublicacao != default(DateTime), "DataPublicacao", "Data publicação não foi informada")
                 .IsNotNullOrEmpty(Texto, "Texto", "Você deve informar um texto para seu comentário")
                 .IsNotNull(Usuario, "Usuario", "Usuário não pode ser nulo")                
                 );

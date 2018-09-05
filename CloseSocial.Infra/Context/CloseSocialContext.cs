@@ -1,4 +1,5 @@
 ﻿using CloseSocial.Domain.Entities;
+using Flunt.Notifications;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace CloseSocial.Infra.Data.Context
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Postagem> Postagens { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
+        public DbSet<Amigo> Amigos { get; set; }
 
         public CloseSocialContext(DbContextOptions options) :base(options)
         {
@@ -19,8 +21,10 @@ namespace CloseSocial.Infra.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Entity>().Ignore(t => t.Notifications);
+            modelBuilder.Ignore<Notification>();
             modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
+            modelBuilder.ApplyConfiguration(new PostagemConfiguration());
+            modelBuilder.ApplyConfiguration(new ComentarioConfiguration());                        
             base.OnModelCreating(modelBuilder); 
         }
     }

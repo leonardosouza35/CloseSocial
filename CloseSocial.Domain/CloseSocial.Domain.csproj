@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Entities\Entity.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Interfaces\Repositores\" />
     <Folder Include="Interfaces\Services\" />
     <Folder Include="Services\" />

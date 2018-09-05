@@ -1,4 +1,5 @@
-﻿using Flunt.Validations;
+﻿using Flunt.Notifications;
+using Flunt.Validations;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,8 +7,9 @@ using System.Text;
 namespace CloseSocial.Domain.Entities
 {
   
-    public class Postagem : Entity
+    public class Postagem : Notifiable
     {
+        public int Id { get; private set; }
         public DateTime DataPublicacao { get; set; }
         public string Texto { get; set; }
         public string UrlConteudo { get; set; }
@@ -33,7 +35,7 @@ namespace CloseSocial.Domain.Entities
             
         }
 
-        public override void Validate()
+        public  void Validate()
         {
             AddNotifications(new Contract()
                 .IsTrue(DataPublicacao != default(DateTime), "DataPublicacao", "Favor informar uma data de publicação")

@@ -1,4 +1,5 @@
-﻿using Flunt.Validations;
+﻿using Flunt.Notifications;
+using Flunt.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,9 @@ namespace CloseSocial.Domain.Entities
         Feminino = 1,
         Masculino = 2
     }
-    public class Usuario : Entity
+    public class Usuario : Notifiable
     {
+        public int Id { get; private set; }
         public string Nome { get; set; }
         public string SobreNome { get; set; }
         public string CelularOrEmail { get; set; }
@@ -72,7 +74,7 @@ namespace CloseSocial.Domain.Entities
         
 
 
-        public override void Validate()
+        public void Validate()
         {
             AddNotifications(
                 new Contract()
