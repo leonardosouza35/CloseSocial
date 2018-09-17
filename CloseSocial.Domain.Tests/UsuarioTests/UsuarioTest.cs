@@ -23,7 +23,7 @@ namespace CloseSocial.Domain.Tests.UsuarioTests
             usuario.Senha = "123456";
             usuario.Sexo = SexoEnum.Masculino;
             usuario.DataNascimento = DateTime.Now;
-            usuario.CelularOrEmail = "user@gmail.com";
+            usuario.Email = "user@gmail.com";
             usuario.Validate();
             Assert.True(!usuario.Notifications.Any());
         }

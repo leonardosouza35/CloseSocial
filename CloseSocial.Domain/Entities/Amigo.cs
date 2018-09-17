@@ -1,7 +1,13 @@
-﻿namespace CloseSocial.Domain.Entities
+﻿using Flunt.Notifications;
+
+namespace CloseSocial.Domain.Entities
 {
-    public class Amigo : Usuario
+    public class Amigo : Notifiable
     {
-        public Usuario Usuario { get; set; }
+        public int Id { get; set; }
+
+        public virtual int UsuarioId { get; set; }
+        public virtual Usuario Usuario { get; set; }
+        public virtual int UsuarioAmigoId { get; set; }        
     }
 }

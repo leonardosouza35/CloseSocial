@@ -16,14 +16,15 @@ namespace CloseSocial.Domain.Entities
         public int Id { get; private set; }
         public string Nome { get; set; }
         public string SobreNome { get; set; }
-        public string CelularOrEmail { get; set; }
+        public string Email { get; set; }
         public string Senha { get; set; }
         public DateTime? DataNascimento { get; set; }
         public SexoEnum Sexo { get; set; }
         public string UrlFoto { get; set; }
 
-        public List<Amigo> Amigos { get; private set; }
-        public List<Postagem> Postagens { get; private set; }
+        public virtual ICollection<Amigo> Amigos { get; private set; }
+        public virtual  ICollection<Postagem> Postagens { get; private set; }
+        public virtual ICollection<Grupo> Grupos { get; private set; }
 
         public Usuario()
         {
@@ -32,14 +33,10 @@ namespace CloseSocial.Domain.Entities
         }
         public void AdicionarAmigo(Amigo amigo)
         {
-
-            amigo.Validate();
-                
-            AddNotifications(amigo.Notifications);
-            
+                                                                
             AddNotifications(
                 new Contract()                
-                .IsTrue(!Amigos.Any(u => u.CelularOrEmail == CelularOrEmail), "Amigos", "Amigo já foi adicionado")
+                .IsTrue(!Amigos.Any(u => u.UsuarioAmigoId == amigo.Id), "Amigos", "Amigo já foi adicionado")
                 );
 
             if (Valid)
@@ -47,11 +44,7 @@ namespace CloseSocial.Domain.Entities
                         
         }
 
-        public Usuario ObterAmigo(string emailOuSenha)
-        {
-            return Amigos.FirstOrDefault(a => a.CelularOrEmail == emailOuSenha);
-        }
-
+        
         public void Postar(Postagem post)
         {
             post.SetUsuario(this);
@@ -81,7 +74,7 @@ namespace CloseSocial.Domain.Entities
                 .IsNotNull(Nome, "Nome", "Você deve informar um nome")
                 .IsNotNull(SobreNome, "SobreNome", "Você deve informar o sobre nome")
                 .IsNotNull(Senha, "Senha", "Você deve informar a senha")
-                .IsNotNull(CelularOrEmail, "CelularOrEmail", "Você deve informar o Celular ou Email")
+                .IsNotNull(Email, "CelularOrEmail", "Você deve informar o Celular ou Email")
                 .IsTrue(DataNascimento.HasValue, "DataNascimento", "Você deve informar a data de nascimento")                
                 );
         }

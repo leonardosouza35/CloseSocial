@@ -29,7 +29,7 @@ namespace CloseSocial.Domain.Tests.UsuarioTest
         [Fact]
         public void Usuario1CriouPost1()
         {
-            Assert.True(post1.Usuario.CelularOrEmail == usuario1.CelularOrEmail);
+            Assert.True(post1.Usuario.Email == usuario1.Email);
         }
 
 
@@ -43,19 +43,19 @@ namespace CloseSocial.Domain.Tests.UsuarioTest
         [Fact]
         public void Usuario2FezUmComentario()
         {
-            Assert.Contains(post1.Usuario.Postagens, p => p.Comentarios.Any(c => c.Usuario.CelularOrEmail == usuario2.CelularOrEmail));
+            Assert.Contains(post1.Usuario.Postagens, p => p.Comentarios.Any(c => c.Usuario.Email == usuario2.Email));
         }
 
         [Fact]
         public void Usuario2FezOPrimeiroComentario()
         {
-            Assert.True(post1.Usuario.Postagens.First().Comentarios.OrderBy(c => c.DataPublicacao).First(cm => cm.Usuario.CelularOrEmail == usuario2.CelularOrEmail) != null);
+            Assert.True(post1.Usuario.Postagens.First().Comentarios.OrderBy(c => c.DataPublicacao).First(cm => cm.Usuario.Email == usuario2.Email) != null);
         }
 
         [Fact]
         public void Usuario1FezUmComentario()
         {
-            Assert.Contains(post1.Usuario.Postagens, p => p.Comentarios.Any(c => c.Usuario.CelularOrEmail == usuario1.CelularOrEmail));
+            Assert.Contains(post1.Usuario.Postagens, p => p.Comentarios.Any(c => c.Usuario.Email == usuario1.Email));
         }
         
 

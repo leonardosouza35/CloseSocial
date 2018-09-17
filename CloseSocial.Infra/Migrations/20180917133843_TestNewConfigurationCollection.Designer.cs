@@ -9,15 +9,29 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloseSocial.Infra.Data.Migrations
 {
     [DbContext(typeof(CloseSocialContext))]
-    [Migration("20180905140905_CloseSocialMigration")]
-    partial class CloseSocialMigration
+    [Migration("20180917133843_TestNewConfigurationCollection")]
+    partial class TestNewConfigurationCollection
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("CloseSocial.Domain.Entities.Amigo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("UsuarioAmigoId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioAmigoId");
+
+                    b.ToTable("Amigos");
+                });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.Comentario", b =>
                 {
@@ -68,12 +82,9 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CelularOrEmail");
-
                     b.Property<DateTime?>("DataNascimento");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
+                    b.Property<string>("Email");
 
                     b.Property<string>("Nome");
 
@@ -88,21 +99,14 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Usuario");
                 });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.Amigo", b =>
                 {
-                    b.HasBaseType("CloseSocial.Domain.Entities.Usuario");
-
-                    b.Property<int?>("UsuarioId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Amigo");
-
-                    b.HasDiscriminator().HasValue("Amigo");
+                    b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
+                        .WithMany("Amigos")
+                        .HasForeignKey("UsuarioAmigoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.Comentario", b =>
@@ -120,13 +124,6 @@ namespace CloseSocial.Infra.Data.Migrations
                 {
                     b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
                         .WithMany("Postagens")
-                        .HasForeignKey("UsuarioId");
-                });
-
-            modelBuilder.Entity("CloseSocial.Domain.Entities.Amigo", b =>
-                {
-                    b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
-                        .WithMany("Amigos")
                         .HasForeignKey("UsuarioId");
                 });
 #pragma warning restore 612, 618

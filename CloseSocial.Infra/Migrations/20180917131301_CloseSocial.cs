@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CloseSocial.Infra.Data.Migrations
 {
-    public partial class CloseSocialMigration : Migration
+    public partial class CloseSocial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,19 +16,31 @@ namespace CloseSocial.Infra.Data.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: true),
                     SobreNome = table.Column<string>(nullable: true),
-                    CelularOrEmail = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
                     Senha = table.Column<string>(nullable: true),
                     DataNascimento = table.Column<DateTime>(nullable: true),
                     Sexo = table.Column<int>(nullable: false),
-                    UrlFoto = table.Column<string>(nullable: true),
-                    Discriminator = table.Column<string>(nullable: false),
-                    UsuarioId = table.Column<int>(nullable: true)
+                    UrlFoto = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usuarios", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Amigos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UsuarioId = table.Column<int>(nullable: true),
+                    UsuarioAmigoId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Amigos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Usuarios_Usuarios_UsuarioId",
+                        name: "FK_Amigos_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "Usuarios",
                         principalColumn: "Id",
@@ -86,6 +98,11 @@ namespace CloseSocial.Infra.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Amigos_UsuarioId",
+                table: "Amigos",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comentarios_PostagemId",
                 table: "Comentarios",
                 column: "PostagemId");
@@ -99,15 +116,13 @@ namespace CloseSocial.Infra.Data.Migrations
                 name: "IX_Postagens_UsuarioId",
                 table: "Postagens",
                 column: "UsuarioId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Usuarios_UsuarioId",
-                table: "Usuarios",
-                column: "UsuarioId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Amigos");
+
             migrationBuilder.DropTable(
                 name: "Comentarios");
 

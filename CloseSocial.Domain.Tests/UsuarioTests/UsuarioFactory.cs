@@ -13,7 +13,7 @@ namespace CloseSocial.Domain.Tests.UsuarioTests
             usuario.Sexo = SexoEnum.Masculino;
             usuario.Senha = "123";
             usuario.DataNascimento = DateTime.Now;
-            usuario.CelularOrEmail = emailOuSenha;
+            usuario.Email = emailOuSenha;
 
             return usuario;
         }

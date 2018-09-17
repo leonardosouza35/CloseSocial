@@ -11,7 +11,7 @@ namespace CloseSocial.Domain.Entities
         public int Id { get; private set; }
         public DateTime DataPublicacao { get; set; }
         public string Texto { get; set; }        
-        public Usuario Usuario { get; private set; }
+        public virtual Usuario Usuario { get; private set; }
 
         public Comentario()
         {

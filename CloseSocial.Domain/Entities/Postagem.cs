@@ -13,8 +13,8 @@ namespace CloseSocial.Domain.Entities
         public DateTime DataPublicacao { get; set; }
         public string Texto { get; set; }
         public string UrlConteudo { get; set; }
-        public List<Comentario> Comentarios { get; private set; }
-        public Usuario Usuario { get; private set; }
+        public virtual ICollection<Comentario> Comentarios { get; private set; }
+        public virtual Usuario Usuario { get; private set; }
 
         
         public Postagem()

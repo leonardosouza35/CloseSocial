@@ -3,14 +3,16 @@ using System;
 using CloseSocial.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CloseSocial.Infra.Data.Migrations
 {
     [DbContext(typeof(CloseSocialContext))]
-    partial class CloseSocialContextModelSnapshot : ModelSnapshot
+    [Migration("20180917152654_GroupCreation")]
+    partial class GroupCreation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,14 +63,11 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Descricao")
-                        .IsRequired();
+                    b.Property<string>("Descricao");
 
-                    b.Property<string>("Nome")
-                        .IsRequired();
+                    b.Property<string>("Nome");
 
-                    b.Property<string>("UrlPhoto")
-                        .IsRequired();
+                    b.Property<string>("UrlPhoto");
 
                     b.Property<int>("UsuarioId");
 
@@ -76,30 +75,7 @@ namespace CloseSocial.Infra.Data.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Grupos");
-                });
-
-            modelBuilder.Entity("CloseSocial.Domain.Entities.MembrosGrupo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("GrupoId");
-
-                    b.Property<int>("TipoMembroId");
-
-                    b.Property<int>("UsuarioId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GrupoId");
-
-                    b.HasIndex("TipoMembroId")
-                        .IsUnique();
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("MembrosGrupo");
+                    b.ToTable("Grupo");
                 });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.Postagem", b =>
@@ -125,20 +101,6 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Postagens");
-                });
-
-            modelBuilder.Entity("CloseSocial.Domain.Entities.TipoMembro", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Descricao");
-
-                    b.Property<int>("MembrosGrupoId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TiposMembro");
                 });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.Usuario", b =>
@@ -188,24 +150,6 @@ namespace CloseSocial.Infra.Data.Migrations
                 {
                     b.HasOne("CloseSocial.Domain.Entities.Usuario", "CriadorGrupo")
                         .WithMany("Grupos")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CloseSocial.Domain.Entities.MembrosGrupo", b =>
-                {
-                    b.HasOne("CloseSocial.Domain.Entities.Grupo", "Grupo")
-                        .WithMany("Membros")
-                        .HasForeignKey("GrupoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CloseSocial.Domain.Entities.TipoMembro", "TipoMembro")
-                        .WithOne("MembrosGrupo")
-                        .HasForeignKey("CloseSocial.Domain.Entities.MembrosGrupo", "TipoMembroId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
-                        .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
