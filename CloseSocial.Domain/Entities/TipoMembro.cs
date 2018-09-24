@@ -8,7 +8,7 @@ namespace CloseSocial.Domain.Entities
         public int Id { get; set; }
         public string Descricao { get; set; }
         public virtual int MembrosGrupoId { get; set; }
-        public virtual MembrosGrupo MembrosGrupo { get; set; }
+        public virtual MembroGrupo MembrosGrupo { get; set; }
 
     }
 }

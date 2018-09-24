@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CloseSocial.Domain.Entities
 {
-    public class MembrosGrupo : Notifiable
+    public class MembroGrupo : Notifiable
     {
         public int Id { get; set; }
         public virtual int GrupoId { get; set; }

@@ -11,7 +11,7 @@ namespace CloseSocial.Domain.Entities
         public virtual int UsuarioId { get; set; }
         public virtual Usuario CriadorGrupo { get; set; }        
         public virtual ICollection<Postagem> Postagens { get; set; }
-        public virtual ICollection<MembrosGrupo> Membros { get; set; }
+        public virtual ICollection<MembroGrupo> Membros { get; set; }
         public string UrlPhoto { get; set; }
     }
 }
