@@ -15,12 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\Repositores\" />
-    <Folder Include="Interfaces\Services\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Flunt" Version="1.0.2" />
   </ItemGroup>
 
