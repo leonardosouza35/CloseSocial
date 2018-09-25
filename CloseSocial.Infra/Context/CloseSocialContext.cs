@@ -16,6 +16,8 @@ namespace CloseSocial.Infra.Data.Context
         public DbSet<Grupo> Grupos { get; set; }
         public DbSet<MembroGrupo> MembrosGrupo { get; set; }
         public DbSet<TipoMembro> TiposMembro { get; set; }
+        public DbSet<StatusRelacionamento> StatusRelacionamento { get; set; }
+        public DbSet<ProcurandoPor> ProcurandoPor { get; set; }
 
         public CloseSocialContext(DbContextOptions options) :base(options)
         {
@@ -31,6 +33,9 @@ namespace CloseSocial.Infra.Data.Context
             modelBuilder.ApplyConfiguration(new ComentarioConfiguration());
             modelBuilder.ApplyConfiguration(new GrupoConfiguration());
             modelBuilder.ApplyConfiguration(new MembroGrupoConfiguration());
+            modelBuilder.ApplyConfiguration(new StatusRelacionamentoConfiguration());
+            modelBuilder.ApplyConfiguration(new ProcurandoPorConfiguration());
+
             base.OnModelCreating(modelBuilder); 
         }
       

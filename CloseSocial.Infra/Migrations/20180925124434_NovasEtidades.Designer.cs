@@ -3,14 +3,16 @@ using System;
 using CloseSocial.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CloseSocial.Infra.Data.Migrations
 {
     [DbContext(typeof(CloseSocialContext))]
-    partial class CloseSocialContextModelSnapshot : ModelSnapshot
+    [Migration("20180925124434_NovasEtidades")]
+    partial class NovasEtidades
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,13 +181,6 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProcurandoPor");
-
-                    b.HasData(
-                        new { Id = 1, Descricao = "NaoEspecificado" },
-                        new { Id = 2, Descricao = "Namoro" },
-                        new { Id = 3, Descricao = "Amizade" },
-                        new { Id = 4, Descricao = "RelacionamentoSerio" }
-                    );
                 });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.StatusRelacionamento", b =>
@@ -198,13 +193,6 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("StatusRelacionamento");
-
-                    b.HasData(
-                        new { Id = 1, Status = "NaoEspecificado" },
-                        new { Id = 2, Status = "Solteiro" },
-                        new { Id = 3, Status = "Casado" },
-                        new { Id = 4, Status = "EmRelacionamentoSerio" }
-                    );
                 });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.TipoMembro", b =>

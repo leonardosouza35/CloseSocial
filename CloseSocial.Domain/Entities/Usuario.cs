@@ -21,8 +21,8 @@ namespace CloseSocial.Domain.Entities
         public DateTime? DataNascimento { get; set; }
         public SexoEnum Sexo { get; set; }
         public string UrlFoto { get; set; }
-        public StatusRelacionamento StatusRelacionamento { get; set; }
-        public ProcurandoPor ProcurandoPor { get; set; }
+        public virtual StatusRelacionamento StatusRelacionamento { get; set; }
+        public virtual ProcurandoPor ProcurandoPor { get; set; }
 
         public virtual ICollection<Amigo> Amigos { get; private set; }
         public virtual  ICollection<Postagem> Postagens { get; private set; }
