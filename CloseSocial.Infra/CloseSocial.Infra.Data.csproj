@@ -6,6 +6,10 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20180917152630_GroupCreation.cs" />
+    <Compile Remove="Migrations\20180927112336_UsuarioGrupo-NovosCampos.cs" />
+    <Compile Remove="Migrations\20180927112504_UsuarioGrupo-NovosCampos.cs" />
+    <Compile Remove="Migrations\20180927112623_UsuarioGrupo-NovosCampos.cs" />
+    <Compile Remove="Migrations\20180927112729_UsuarioGrupo-NovosCampos.cs" />
   </ItemGroup>
 
   <ItemGroup>

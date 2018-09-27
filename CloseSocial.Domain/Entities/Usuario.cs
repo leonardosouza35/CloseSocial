@@ -25,10 +25,12 @@ namespace CloseSocial.Domain.Entities
         public virtual ProcurandoPor ProcurandoPor { get; set; }
 
         public virtual ICollection<Amigo> Amigos { get; private set; }
-        public virtual  ICollection<Postagem> Postagens { get; private set; }
-        public virtual ICollection<Grupo> Grupos { get; private set; }
+        public virtual  ICollection<Postagem> Postagens { get; private set; }        
         public virtual ICollection<InstituicaoEnsino> InstituicoesEnsino { get; private set; }
-        public virtual ICollection<LocalTrabalho> LocaisTrabalho { get; private set; }
+        public virtual ICollection<LocalTrabalho> LocaisTrabalho { get; private set; }        
+        public virtual ICollection<UsuarioGrupo> UsuarioGrupos { get; private set; }
+        public virtual ICollection<Notificacao> Notificacoes { get; set; }
+
 
         public Usuario()
         {
@@ -38,10 +40,10 @@ namespace CloseSocial.Domain.Entities
         public void AdicionarAmigo(Amigo amigo)
         {
                                                                 
-            AddNotifications(
-                new Contract()                
-                .IsTrue(!Amigos.Any(u => u.UsuarioAmigoId == amigo.Id), "Amigos", "Amigo já foi adicionado")
-                );
+            //AddNotifications(
+            //    new Contract()                
+            //    .IsTrue(!Amigos.Any(u => u.UsuarioAmigoId == amigo.Id), "Amigos", "Amigo já foi adicionado")
+            //    );
 
             if (Valid)
                 Amigos.Add(amigo);

@@ -8,9 +8,7 @@ namespace CloseSocial.Infra.Data.Context
     {
         public void Configure(EntityTypeBuilder<Amigo> builder)
         {
-            builder.HasKey(a => a.Id);
-            builder.Property(a => a.UsuarioAmigoId).IsRequired();
-            
+            builder.HasKey(a => new { a.UsuarioId, a.UsuarioAmigoId});            
         }
     }
 }

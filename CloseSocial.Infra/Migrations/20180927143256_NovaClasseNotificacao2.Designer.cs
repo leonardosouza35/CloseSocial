@@ -3,14 +3,16 @@ using System;
 using CloseSocial.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CloseSocial.Infra.Data.Migrations
 {
     [DbContext(typeof(CloseSocialContext))]
-    partial class CloseSocialContextModelSnapshot : ModelSnapshot
+    [Migration("20180927143256_NovaClasseNotificacao2")]
+    partial class NovaClasseNotificacao2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,11 +121,9 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("UsuarioId");
+                    b.Property<int>("TipoNotificacao");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Notificacoes");
                 });
@@ -188,28 +188,6 @@ namespace CloseSocial.Infra.Data.Migrations
                         new { Id = 2, Status = "Solteiro" },
                         new { Id = 3, Status = "Casado" },
                         new { Id = 4, Status = "EmRelacionamentoSerio" }
-                    );
-                });
-
-            modelBuilder.Entity("CloseSocial.Domain.Entities.TipoNotificacao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Descricao");
-
-                    b.Property<int>("NotificacaoId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NotificacaoId")
-                        .IsUnique();
-
-                    b.ToTable("TipoNotificacao");
-
-                    b.HasData(
-                        new { Id = 1, Descricao = "AniversarioAmigo", NotificacaoId = 0 },
-                        new { Id = 2, Descricao = "SolicitacaoAmizade", NotificacaoId = 0 }
                     );
                 });
 
@@ -302,14 +280,6 @@ namespace CloseSocial.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CloseSocial.Domain.Entities.Notificacao", b =>
-                {
-                    b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
-                        .WithMany("Notificacoes")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("CloseSocial.Domain.Entities.Postagem", b =>
                 {
                     b.HasOne("CloseSocial.Domain.Entities.Grupo")
@@ -319,14 +289,6 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
                         .WithMany("Postagens")
                         .HasForeignKey("UsuarioId");
-                });
-
-            modelBuilder.Entity("CloseSocial.Domain.Entities.TipoNotificacao", b =>
-                {
-                    b.HasOne("CloseSocial.Domain.Entities.Notificacao", "Notificacao")
-                        .WithOne("TipoNotificacao")
-                        .HasForeignKey("CloseSocial.Domain.Entities.TipoNotificacao", "NotificacaoId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.Usuario", b =>

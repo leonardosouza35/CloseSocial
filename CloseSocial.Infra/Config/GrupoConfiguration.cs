@@ -11,8 +11,7 @@ namespace CloseSocial.Infra.Data.Context
             builder.HasKey(a => a.Id);
             builder.Property(a => a.Nome).IsRequired();
             builder.Property(a => a.Descricao).IsRequired();
-            builder.Property(a => a.UrlPhoto).IsRequired();
-            builder.HasMany(g => g.Membros).WithOne(a => a.Grupo).HasForeignKey(a => a.GrupoId);
+            builder.Property(a => a.UrlPhoto).IsRequired();            
         }
     }
 }

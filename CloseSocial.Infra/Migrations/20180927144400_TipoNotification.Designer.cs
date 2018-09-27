@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloseSocial.Infra.Data.Migrations
 {
     [DbContext(typeof(CloseSocialContext))]
-    [Migration("20180925124434_NovasEtidades")]
-    partial class NovasEtidades
+    [Migration("20180927144400_TipoNotification")]
+    partial class TipoNotification
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,16 +21,13 @@ namespace CloseSocial.Infra.Data.Migrations
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.Amigo", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("UsuarioId");
 
                     b.Property<int>("UsuarioAmigoId");
 
-                    b.Property<int>("UsuarioId");
+                    b.HasKey("UsuarioId", "UsuarioAmigoId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UsuarioAmigoId");
 
                     b.ToTable("Amigos");
                 });
@@ -72,11 +69,7 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.Property<string>("UrlPhoto")
                         .IsRequired();
 
-                    b.Property<int>("UsuarioId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Grupos");
                 });
@@ -123,27 +116,22 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.ToTable("LocalTrabalho");
                 });
 
-            modelBuilder.Entity("CloseSocial.Domain.Entities.MembroGrupo", b =>
+            modelBuilder.Entity("CloseSocial.Domain.Entities.Notificacao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("GrupoId");
-
-                    b.Property<int>("TipoMembroId");
+                    b.Property<int>("TipoNotificacaoId");
 
                     b.Property<int>("UsuarioId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GrupoId");
-
-                    b.HasIndex("TipoMembroId")
-                        .IsUnique();
+                    b.HasIndex("TipoNotificacaoId");
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("MembrosGrupo");
+                    b.ToTable("Notificacoes");
                 });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.Postagem", b =>
@@ -181,6 +169,13 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProcurandoPor");
+
+                    b.HasData(
+                        new { Id = 1, Descricao = "NaoEspecificado" },
+                        new { Id = 2, Descricao = "Namoro" },
+                        new { Id = 3, Descricao = "Amizade" },
+                        new { Id = 4, Descricao = "RelacionamentoSerio" }
+                    );
                 });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.StatusRelacionamento", b =>
@@ -193,20 +188,30 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("StatusRelacionamento");
+
+                    b.HasData(
+                        new { Id = 1, Status = "NaoEspecificado" },
+                        new { Id = 2, Status = "Solteiro" },
+                        new { Id = 3, Status = "Casado" },
+                        new { Id = 4, Status = "EmRelacionamentoSerio" }
+                    );
                 });
 
-            modelBuilder.Entity("CloseSocial.Domain.Entities.TipoMembro", b =>
+            modelBuilder.Entity("CloseSocial.Domain.Entities.TipoNotificacao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Descricao");
 
-                    b.Property<int>("MembrosGrupoId");
-
                     b.HasKey("Id");
 
-                    b.ToTable("TiposMembro");
+                    b.ToTable("TipoNotificacao");
+
+                    b.HasData(
+                        new { Id = 1, Descricao = "AniversarioAmigo" },
+                        new { Id = 2, Descricao = "SolicitacaoAmizade" }
+                    );
                 });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.Usuario", b =>
@@ -241,8 +246,30 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.ToTable("Usuarios");
                 });
 
+            modelBuilder.Entity("CloseSocial.Domain.Entities.UsuarioGrupo", b =>
+                {
+                    b.Property<int>("UsuarioId");
+
+                    b.Property<int>("GrupoId");
+
+                    b.Property<DateTime?>("DataCriacao");
+
+                    b.Property<bool>("EhAdministrador");
+
+                    b.HasKey("UsuarioId", "GrupoId");
+
+                    b.HasIndex("GrupoId");
+
+                    b.ToTable("UsuarioGrupo");
+                });
+
             modelBuilder.Entity("CloseSocial.Domain.Entities.Amigo", b =>
                 {
+                    b.HasOne("CloseSocial.Domain.Entities.Usuario", "UsuarioAmigo")
+                        .WithMany()
+                        .HasForeignKey("UsuarioAmigoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
                         .WithMany("Amigos")
                         .HasForeignKey("UsuarioId")
@@ -258,14 +285,6 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId");
-                });
-
-            modelBuilder.Entity("CloseSocial.Domain.Entities.Grupo", b =>
-                {
-                    b.HasOne("CloseSocial.Domain.Entities.Usuario", "CriadorGrupo")
-                        .WithMany("Grupos")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.InstituicaoEnsino", b =>
@@ -284,20 +303,15 @@ namespace CloseSocial.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CloseSocial.Domain.Entities.MembroGrupo", b =>
+            modelBuilder.Entity("CloseSocial.Domain.Entities.Notificacao", b =>
                 {
-                    b.HasOne("CloseSocial.Domain.Entities.Grupo", "Grupo")
-                        .WithMany("Membros")
-                        .HasForeignKey("GrupoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CloseSocial.Domain.Entities.TipoMembro", "TipoMembro")
-                        .WithOne("MembrosGrupo")
-                        .HasForeignKey("CloseSocial.Domain.Entities.MembroGrupo", "TipoMembroId")
+                    b.HasOne("CloseSocial.Domain.Entities.TipoNotificacao", "TipoNotificacao")
+                        .WithMany()
+                        .HasForeignKey("TipoNotificacaoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
-                        .WithMany()
+                        .WithMany("Notificacoes")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -322,6 +336,19 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.HasOne("CloseSocial.Domain.Entities.StatusRelacionamento", "StatusRelacionamento")
                         .WithMany()
                         .HasForeignKey("StatusRelacionamentoId");
+                });
+
+            modelBuilder.Entity("CloseSocial.Domain.Entities.UsuarioGrupo", b =>
+                {
+                    b.HasOne("CloseSocial.Domain.Entities.Grupo", "Grupo")
+                        .WithMany("UsuarioGrupos")
+                        .HasForeignKey("GrupoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
+                        .WithMany("UsuarioGrupos")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

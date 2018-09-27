@@ -2,7 +2,7 @@
 
 namespace CloseSocial.Infra.Data.Migrations
 {
-    public partial class TestNewConfigurationCollection : Migration
+    public partial class NovaClasseNotificacao4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
