@@ -17,9 +17,11 @@ namespace CloseSocial.Infra.Data.Context
             builder.Property(u => u.Email);
             builder.Property(u => u.UrlFoto);
             builder.HasMany(u => u.Postagens);
-            builder.HasMany(u => u.Amigos).WithOne(u => u.Usuario).HasForeignKey(u => u.UsuarioId);            
-            builder.HasOne(u => u.StatusRelacionamento);
+            builder.HasMany(u => u.Amigos).WithOne(u => u.Usuario).HasForeignKey(u => u.UsuarioId);
+            builder.HasMany(u => u.Notificacoes).WithOne(u => u.Usuario).HasForeignKey(u => u.UsuarioId);
             builder.HasOne(u => u.ProcurandoPor);
+            builder.HasOne(u => u.StatusRelacionamento);                               
+                
         }
     }
 }

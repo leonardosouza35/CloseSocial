@@ -119,9 +119,13 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("TipoNotificacaoId");
+
                     b.Property<int>("UsuarioId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TipoNotificacaoId");
 
                     b.HasIndex("UsuarioId");
 
@@ -198,18 +202,15 @@ namespace CloseSocial.Infra.Data.Migrations
 
                     b.Property<string>("Descricao");
 
-                    b.Property<int>("NotificacaoId");
+                    b.Property<string>("TipoNotificacaoDescricaoTest");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("NotificacaoId")
-                        .IsUnique();
 
                     b.ToTable("TipoNotificacao");
 
                     b.HasData(
-                        new { Id = 1, Descricao = "AniversarioAmigo", NotificacaoId = 0 },
-                        new { Id = 2, Descricao = "SolicitacaoAmizade", NotificacaoId = 0 }
+                        new { Id = 1, Descricao = "AniversarioAmigo" },
+                        new { Id = 2, Descricao = "SolicitacaoAmizade" }
                     );
                 });
 
@@ -304,6 +305,10 @@ namespace CloseSocial.Infra.Data.Migrations
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.Notificacao", b =>
                 {
+                    b.HasOne("CloseSocial.Domain.Entities.TipoNotificacao", "TipoNotificacao")
+                        .WithMany()
+                        .HasForeignKey("TipoNotificacaoId");
+
                     b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
                         .WithMany("Notificacoes")
                         .HasForeignKey("UsuarioId")
@@ -319,14 +324,6 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
                         .WithMany("Postagens")
                         .HasForeignKey("UsuarioId");
-                });
-
-            modelBuilder.Entity("CloseSocial.Domain.Entities.TipoNotificacao", b =>
-                {
-                    b.HasOne("CloseSocial.Domain.Entities.Notificacao", "Notificacao")
-                        .WithOne("TipoNotificacao")
-                        .HasForeignKey("CloseSocial.Domain.Entities.TipoNotificacao", "NotificacaoId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CloseSocial.Domain.Entities.Usuario", b =>

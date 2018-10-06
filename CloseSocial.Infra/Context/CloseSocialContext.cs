@@ -35,6 +35,7 @@ namespace CloseSocial.Infra.Data.Context
             modelBuilder.ApplyConfiguration(new StatusRelacionamentoConfiguration());
             modelBuilder.ApplyConfiguration(new ProcurandoPorConfiguration());
             modelBuilder.ApplyConfiguration(new UsuarioGrupoConfiguration());
+            modelBuilder.ApplyConfiguration(new NotificacaoConfiguration());            
             modelBuilder.ApplyConfiguration(new TipoNotificacaoConfiguration());            
 
             base.OnModelCreating(modelBuilder); 

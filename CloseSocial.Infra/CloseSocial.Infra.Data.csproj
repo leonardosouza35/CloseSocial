@@ -10,6 +10,7 @@
     <Compile Remove="Migrations\20180927112504_UsuarioGrupo-NovosCampos.cs" />
     <Compile Remove="Migrations\20180927112623_UsuarioGrupo-NovosCampos.cs" />
     <Compile Remove="Migrations\20180927112729_UsuarioGrupo-NovosCampos.cs" />
+    <Compile Remove="Migrations\20180928123351_AdicionandoNovoCampo.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +19,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.1" />
   </ItemGroup>
 

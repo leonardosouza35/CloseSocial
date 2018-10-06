@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloseSocial.Infra.Data.Migrations
 {
     [DbContext(typeof(CloseSocialContext))]
-    [Migration("20180927144400_TipoNotification")]
-    partial class TipoNotification
+    [Migration("20180928122107_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -121,7 +121,7 @@ namespace CloseSocial.Infra.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("TipoNotificacaoId");
+                    b.Property<int?>("TipoNotificacaoId");
 
                     b.Property<int>("UsuarioId");
 
@@ -307,8 +307,7 @@ namespace CloseSocial.Infra.Data.Migrations
                 {
                     b.HasOne("CloseSocial.Domain.Entities.TipoNotificacao", "TipoNotificacao")
                         .WithMany()
-                        .HasForeignKey("TipoNotificacaoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TipoNotificacaoId");
 
                     b.HasOne("CloseSocial.Domain.Entities.Usuario", "Usuario")
                         .WithMany("Notificacoes")

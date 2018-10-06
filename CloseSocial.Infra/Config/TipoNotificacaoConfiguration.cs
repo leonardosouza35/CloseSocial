@@ -8,6 +8,9 @@ namespace CloseSocial.Infra.Data.Context
     {
         public void Configure(EntityTypeBuilder<TipoNotificacao> builder)
         {
+            builder.HasKey(t => t.Id);
+            builder.Property(t => t.Descricao);
+            builder.Property(t => t.TipoNotificacaoDescricaoTest);
             builder.HasData(
                 new TipoNotificacao() { Id = 1, Descricao = "AniversarioAmigo" },
                 new TipoNotificacao() { Id = 2, Descricao = "SolicitacaoAmizade" });                

@@ -50,6 +50,19 @@ namespace CloseSocial.Infra.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TipoNotificacao",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Descricao = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TipoNotificacao", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Usuarios",
                 columns: table => new
                 {
@@ -92,6 +105,12 @@ namespace CloseSocial.Infra.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Amigos", x => new { x.UsuarioId, x.UsuarioAmigoId });
+                    table.ForeignKey(
+                        name: "FK_Amigos_Usuarios_UsuarioAmigoId",
+                        column: x => x.UsuarioAmigoId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Amigos_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
@@ -139,6 +158,32 @@ namespace CloseSocial.Infra.Data.Migrations
                     table.PrimaryKey("PK_LocalTrabalho", x => x.Id);
                     table.ForeignKey(
                         name: "FK_LocalTrabalho_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notificacoes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TipoNotificacaoId = table.Column<int>(nullable: true),
+                    UsuarioId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notificacoes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notificacoes_TipoNotificacao_TipoNotificacaoId",
+                        column: x => x.TipoNotificacaoId,
+                        principalTable: "TipoNotificacao",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Notificacoes_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "Usuarios",
                         principalColumn: "Id",
@@ -250,6 +295,20 @@ namespace CloseSocial.Infra.Data.Migrations
                     { 4, "EmRelacionamentoSerio" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "TipoNotificacao",
+                columns: new[] { "Id", "Descricao" },
+                values: new object[,]
+                {
+                    { 1, "AniversarioAmigo" },
+                    { 2, "SolicitacaoAmizade" }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Amigos_UsuarioAmigoId",
+                table: "Amigos",
+                column: "UsuarioAmigoId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Comentarios_PostagemId",
                 table: "Comentarios",
@@ -268,6 +327,16 @@ namespace CloseSocial.Infra.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_LocalTrabalho_UsuarioId",
                 table: "LocalTrabalho",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notificacoes_TipoNotificacaoId",
+                table: "Notificacoes",
+                column: "TipoNotificacaoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notificacoes_UsuarioId",
+                table: "Notificacoes",
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
@@ -311,10 +380,16 @@ namespace CloseSocial.Infra.Data.Migrations
                 name: "LocalTrabalho");
 
             migrationBuilder.DropTable(
+                name: "Notificacoes");
+
+            migrationBuilder.DropTable(
                 name: "UsuarioGrupo");
 
             migrationBuilder.DropTable(
                 name: "Postagens");
+
+            migrationBuilder.DropTable(
+                name: "TipoNotificacao");
 
             migrationBuilder.DropTable(
                 name: "Grupos");
